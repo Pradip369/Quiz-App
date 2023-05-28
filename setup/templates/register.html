@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Register Page{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-5 offset-md-3 register__page mb-5">
+            <h3 class="text-center mt-2">Register</h3>
+
+            <hr/>
+
+            <div>
+                {% if messages %}
+                {% for message in messages%}
+                <h6 class="my-3 alert alert-danger text-dark">• {{message}}</h6>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <form action="" method="POST" novalidate>
+                {% csrf_token %}
+                {{fm | crispy}}
+                <input type="submit" value="Submit" class="border-dark btn-sm mb-2 btn btn-success btn-block">
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% block javascript %}
+
+{% endblock javascript %}
+{% endblock %}

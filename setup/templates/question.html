@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Quize Question{% endblock title %}
+
+{% block content %}
+
+{% for qs in page_obj %}
+
+<div class="container-fluid">
+    <div class="question__box">
+        <h1 id="wrong_score" style="font-family: cursive; display: none;" class="text-center py-5">My Score : <b
+                        class="text-success">{{score}}</b><br/><a href="{% url 'logout_user' %}" class="btn btn-sm btn-success px-3">Submit</a><hr/></h1>
+
+        <h3 class="px-2"><b>Question : </b><small id="question_id" class="{{qs.id}}">{{qs.question}}</small></h3>
+        <p class="text-muted text-right pr-1">(Point:{{qs.point}})</p>
+        <hr />
+
+        <div class="container-fluid">
+            <form action="" method="POST" novalidate>
+                {% csrf_token %}
+                <h5 class="pb-2"><input type="radio" class="rb click_disable" name={{qs.id}} id="{{qs.option1}}"> A) {{qs.option1}}</h5>
+                <h5 class="pb-2"><input type="radio" class="rb click_disable" name={{qs.id}} id="{{qs.option2}}"> B) {{qs.option2}}</h5>
+ 
+              {% if qs.option3 %}
+                <h5 class="pb-2"><input type="radio" class="rb click_disable" name={{qs.id}} id="{{qs.option3}}"> C) {{qs.option3}}</h5>
+                {% endif %}
+
+                {% if qs.option4 %}
+                <h5 class="pb-2"><input type="radio" class="rb click_disable" name={{qs.id}} id="{{qs.option4}}"> D) {{qs.option4}}</h5>
+                {% endif %}
+            </form>
+        </div>
+       
+        <div class="container-fluid">
+           <h5 id="correct" style="display: none;" class="alert alert-success shadow border-success">Very Good, Your answer is <b>correct</b>.</h5>
+           <h5 id="incorrect" style="display: none;" class="alert alert-danger shadow border-danger">Sorry, Your answer is <b>wrong</b>.</h5>
+        </div>
+
+        <div class="container-fluid">
+            <h5 class="rb" id="corans" style="display: none;"><hr/>Correct answer is : <b class="text-success">{{qs.answer_hidden}}</b></h5>
+            <h5>Your Ticked Option : <span class="text-info" id="userans">?</span></h5>
+        </div>
+
+        {% if qs.solution %}
+        <hr/>
+            <div id="solution" style="background-color: rgb(228, 225, 225); display: none;" class="container rounded">
+                <p class="p-2"><b>Solution</b> : <br/>{{qs.solution}}</p>
+            </div>
+        {% endif %}
+
+        {% endfor %}
+        <p class="text-right"><a class="text-right btn btn-sm btn-primary px-4 m-3 disabled" type="button" id="b12" onclick="myclick()">Submit</a></p>
+
+        {% if page_obj.has_next %}
+        <p class="text-right"><a style="display: none;" id="next_btn" class="btn btn-sm btn-success px-4 m-3" href="?page={{page_obj.next_page_number}}">Next</a></p>
+        {% endif %}
+
+        {% if not page_obj.has_next %}
+        <form action="{% url 'all_done' %}" method="POST">
+            {% csrf_token %}
+        <p class="text-right"><input type="submit" value="All Done" style="display: none;" id="next_btn" class="btn btn-sm btn-success px-4 m-3"></p>
+        </form>
+        {% endif %}
+
+        <p id='session' style="display: none;">{{user_name}}</p>
+
+    </div>
+</div>
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+            $(".click_disable").click(
+                function () {
+                        const get_class = document.getElementById('b12').classList.remove('disabled')
+                        document.getElementById("userans").innerHTML = this.id
+                }
+            )
+        });
+</script>
+
+<script>
+    function myclick (e) {
+        $("#b12").hide()
+        $("#solution").show()
+        document.getElementById("userans").innerHTML = "";
+        var e = document.getElementsByTagName("input");
+        for (i = 0; i <= e.length; i++) {
+            if (e[i].type == 'radio') {
+                if (e[i].checked) {
+                    document.getElementById("userans").innerHTML = e[i].id
+                    console.log(e[i].id)
+                }
+            }
+        }
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+    $('#b12').click(function (e) {
+        e.preventDefault()
+        const id = document.getElementById('question_id').className
+        const ans = document.getElementById('userans').innerText
+        const user = document.getElementById('session').innerText
+
+        $(".rb").show();
+        $(".rb").attr("disabled", true);
+
+        $.ajax({
+            type: "POST",
+            url: `http://127.0.0.1:8000/checkAns/${id}/${ans}/${user}/`,
+            data: { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+            dataType: "json",
+            success: function (response) {
+                 ansResult(response)
+            },
+            error: function (rs, e) {
+                if(rs.status === 404){
+                   alert("Please, Select Appropriate Option")
+                }
+                else{
+                    alert("sorry, Something went wrong..try again!!!")
+                }
+            }
+        })
+        function ansResult(response){
+            if(response.message === 'Correct'){
+                $("#next_btn").show()
+                $("#correct").show()
+                $("#userans").removeClass()
+                $("#userans").addClass('text-success')
+                const ring = new Audio();
+                ring.src = '/static/ring/Ring.ogg';
+                ring.play();
+            }
+            if(response.message === 'False'){
+                $("#incorrect").show()
+                $("#userans").addClass('text-danger')
+                $("#wrong_score").show()
+            }
+        }
+        });
+    });
+</script>
+
+{% endblock javascript %}
+
+{% endblock %}

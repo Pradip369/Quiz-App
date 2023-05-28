@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}All Done{% endblock title %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="success__box">
+
+        <center>
+            <img src="/static/image/success.gif" width="100px" height="100px" class="m-3 rounded-circle"
+                alt="Congratulations">
+            <img src="/static/image/success.gif" width="100px" height="100px" class="m-3 rounded-circle"
+                alt="Congratulations">
+            <img src="/static/image/success.gif" width="100px" height="100px" class="m-3 rounded-circle"
+                alt="Congratulations">
+        </center>
+
+        <h3 class="text-center pt-3">🏆🏆🏆Congratulations, your all answers are correct!!🏆🏆🏆</h3>
+
+        <h1 id="wrong_score" style="font-family: cursive;" class="text-center py-5">My Score : <b class="text-success">{{score}}</b></h1>
+        
+    </div>
+</div>
+
+{% endblock %}

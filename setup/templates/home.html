@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock title %}
+
+{% block content %}
+
+<h1 class="welcome__text">Welcome {{name | capfirst}}</h1>
+
+
+<div class="mt-5 text-center">
+<a href="{% url 'quize_start' %}" class="btn btn-info btn-sm px-5 border-dark">Start Quiz Now</a>
+
+</div>
+<div>
+    {% if ud is not none %}
+    <br/>
+    <hr/>
+    <h3 class="text-center">My Detail</h3>
+    <hr/>
+    <div class="container-fluid col-md-7 mt-3 mb-5">
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <td class="font-weight-bold">Name : </td>
+                <td>{{ud.name}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">My Score : </td>
+                <td>{{score}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Mobile No. : </td>
+                <td>{{ud.mobile_no}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Email : </td>
+                <td>{{ud.email}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">City : </td>
+                <td>{{ud.city}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Address : </td>
+                <td>{{ud.address}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Join Date : </td>
+                <td>{{ud.created_date}}</td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Clear Register Data : </td>
+                <td><a href="#" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-outline-danger btn-sm btn-block">Delete My Session</a></td>
+            </tr>
+            
+        </tbody>
+    </table>
+    </div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Do you want to delete your Session?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                This is one-way process.If you delete your session data then you can not play quiz again by using this email ID or
+                username.After delete, if you want to play quiz again then you must register new account again by using different email ID and username.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Cancel</button>
+                <a class="btn-sm btn btn-outline-danger" href="{% url 'logout_user' %}">Yes, Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<hr/>
+<p class="text-danger pl-2">• You are not registered user please first register your account and then start quiz...
+<a href="/" class="btn btn-sm btn-outline-success py-0 px-3">Register Your Account</a>
+</p>
+
+
+    {% endif %}
+
+</div>
+{% endblock %}

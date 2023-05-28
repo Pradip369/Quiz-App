@@ -1,0 +1,73 @@
+.form-control:focus {
+  box-shadow: 0 0 0 0.1rem rgb(121, 248, 62) !important;
+}
+.form-control {
+  transition: none !important;
+}
+.asteriskField {
+  color: red !important;
+}
+.register__page {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgb(3, 3, 3, 0.6);
+  background-color: rgba(250, 246, 246, 9) !important;
+  border-radius: 10px;
+}
+.question__box {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgb(3, 3, 3, 0.6);
+  background-color: rgba(250, 246, 246, 9) !important;
+  border-radius: 5px;
+}
+.success__box {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgb(3, 3, 3, 0.6);
+  background-color: rgb(182, 236, 101) !important;
+  border-radius: 5px;
+}
+.block__content {
+  background-color: khaki !important;
+}
+
+.navbar__setup {
+  background-color: rgb(250, 189, 76);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(87, 61, 61, 0.1);
+}
+.welcome__text {
+  font-family: cursive;
+  text-align: center;
+  text-shadow: 4px 2px 5px rgb(75, 76, 80);
+  font-weight: bold;
+  color: rgb(255, 115, 0);
+  animation: text_anim 0.8s alternate;
+  animation-iteration-count: infinite;
+}
+@keyframes text_anim {
+  from {
+    color: rgb(255, 115, 0);
+  }
+  to {
+    color: rgb(255, 0, 0);
+    text-shadow: 4px 2px 5px rgb(13, 13, 14);
+    font-size: 41px;
+  }
+}
+.app_logo {
+  font-family: cursive !important;
+  font-weight: bold !important;
+  text-shadow: 2px 2px 3px rgb(245, 235, 235) !important;
+  color: mediumseagreen !important;
+}
+
+.goog-logo-link {
+  display: none !important;
+}
+.goog-te-gadget {
+  color: transparent !important;
+}
+.goog-te-gadget .goog-te-combo {
+  color: rgb(17, 14, 14) !important;
+  background-color: rgb(250, 189, 76) !important;
+  width: 126px !important;
+  height: 20px !important;
+}
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
